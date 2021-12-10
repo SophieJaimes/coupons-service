@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
+
 @Service
 public class CalculateService {
 	
@@ -19,55 +21,47 @@ public class CalculateService {
 
 
 	public List<String> calculate(Map<String, Float> items, Float amount){
+		
+		logger.info("Initial data - items: {} amount: {}",items,amount);
 
-		Map<String, Float> result = items.entrySet().stream()
+		Map<String, Float> orderedByPriceItemsList = items.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 						(oldValue, newValue) -> oldValue, LinkedHashMap::new));
 
-		logger.info("result: {}",result);
+		logger.debug("orderedByPriceItemsList: {}",orderedByPriceItemsList);
 
 		Float totalAmount = 0f;
-		List<String> productList = null;
+		List<String> resultProductsList = new ArrayList<>();
 
-		for (Map.Entry<String, Float> entry : result.entrySet()) {
+		for (Map.Entry<String, Float> entry : orderedByPriceItemsList.entrySet()) {
 
-			productList = new ArrayList<>();
 			totalAmount += entry.getValue();
 
 			if(totalAmount < amount) {
-				productList.add(entry.getKey());
-				
-			}
-			productList.sort(Comparator.naturalOrder());
-			for(String pl : productList) {
-				
-				logger.info("pl item: {}",pl);
+				resultProductsList.add(entry.getKey());
 			}
 		}
-
-		return productList;
+		resultProductsList.sort(Comparator.naturalOrder());
+		
+		String jsonSuggestedProducts = new Gson().toJson(resultProductsList);
+		logger.info("jsonSuggestedProducts: {}",jsonSuggestedProducts);
+		
+		return resultProductsList;
 	}
 
 	public static void main(String[] args) {
 
 		Map<String, Float> map = new HashMap<>();
-		map.put("MLA2", 210.99F);
+		map.put("MLA1", 100F);
+		map.put("MLA2", 210f);
 		map.put("MLA3", 260f);
 		map.put("MLA4", 80f);
-		map.put("MLA1", 100f);
 		map.put("MLA5", 90f);
-		map.put("MLA6", 10f);
-		map.put("MLA7", 20f);
-		map.put("MLA8", 20f);
-		map.put("MLA9", 30f);
 
-		Float amount = 600f;
+		Float amount = 500f;
 
-		CalculateService cs = new CalculateService();
-		cs.calculate(map, amount);
-		
-
+		CalculateService calculateService = new CalculateService();
+		calculateService.calculate(map, amount);
 	}
-
 }
