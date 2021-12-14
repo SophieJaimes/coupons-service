@@ -11,6 +11,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.settings/*
 .project
 
 ### IntelliJ IDEA ###
@@ -29,5 +30,5 @@ build/
 
 ### VS Code ###
 .vscode/
-
 *~
+bin/

@@ -21,11 +21,13 @@ public class CalculateService {
 
 	public List<String> calculate(Map<String, Float> items, Float amount){
 
+		//Ordena de menor a mayor por amount y elimina los duplicados
+		
 		Map<String, Float> orderedByPriceItemsList = items.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
 						(oldValue, newValue) -> oldValue, LinkedHashMap::new));
-
+		
 		logger.debug("orderedByPriceItemsList: {}",orderedByPriceItemsList);
 
 		Float totalAmount = 0f;

@@ -92,7 +92,7 @@ public class Controller {
 			else if(null != suggestedProductsToBuy) {
 
 				response.setStatus("200-OK");
-				response.setMessage(suggestedProductsToBuy.toString());
+				response.setMessage(suggestedProductsToBuy.toString().replace("\\", ""));
 			}
 		} catch (Exception e) {
 			logger.error("RequestBody Error");
@@ -100,5 +100,4 @@ public class Controller {
 		}
 		return response;
 	}
-	
 }

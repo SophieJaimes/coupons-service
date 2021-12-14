@@ -7,6 +7,8 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,7 +21,9 @@ public class HttpRequestService {
 	private String requestUriApi;
 
 	public static final Logger logger = LoggerFactory.getLogger(HttpRequestService.class);
-
+	
+	
+	@Cacheable(cacheNames="priceByItemId")
 	public Map<String,Float> getPriceByItemId(List<String> itemsList) {
 
 		Map<String,Float> itemsWithPricesMap = new HashMap<>();
@@ -31,7 +35,6 @@ public class HttpRequestService {
 			logger.debug("uri: {}",uri);
 			try {
 				GetResponse getResponse = restTemplate.getForObject(uri, GetResponse.class);
-				
 				if(null != getResponse) {
 					itemsWithPricesMap.put(itemId, getResponse.getPrice());
 				}	
@@ -41,5 +44,10 @@ public class HttpRequestService {
 			}
 		}
 		return itemsWithPricesMap;
+	}
+	
+	@CacheEvict(cacheNames="priceByItemId", allEntries=true)
+	public void releasePriceByItemId() { 
+		// Intentionally blank
 	}
 }
