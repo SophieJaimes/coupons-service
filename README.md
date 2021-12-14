@@ -2,7 +2,7 @@
 
 Se generó un API POST que recibe como parámetros una lista de item_ids con sus respectivos precios y el máximo total del cupón.
 
-**Host:** https://34.69.205.108:80/challengeLevel1/
+**Host:** http://34.69.205.108:80/challengeLevel1/
 
 **Request body ejemplo:**
 
@@ -19,7 +19,7 @@ Se generó un API POST que recibe como parámetros una lista de item_ids con sus
 
 Se generó un API POST que recibe como parámetros una lista de item_ids y el máximo total del cupón
 
-**Host:** https://34.69.205.108:80/coupon/
+**Host:** http://34.69.205.108:80/coupon/
 
 **Body ejemplo:**
 
