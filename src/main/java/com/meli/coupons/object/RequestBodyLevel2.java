@@ -2,10 +2,11 @@ package com.meli.coupons.object;
 
 import java.util.List;
 
-public class RequestBodyObject {
+public class RequestBodyLevel2 {
 	
 	private List<String> items;
 	private float amount;
+	
 	public List<String> getItems() {
 		return items;
 	}

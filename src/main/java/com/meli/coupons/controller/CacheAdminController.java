@@ -12,7 +12,7 @@ public class CacheAdminController {
 	HttpRequestService httpRequestService;
 	
 	@GetMapping(value = "/cacheClean")
-	public String cleanCacheEventNotifierProperties() {
+	public String cleanCache() {
 		httpRequestService.releasePriceByItemId();
 		return "Cache cleaned";
 	}

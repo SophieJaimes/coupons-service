@@ -2,12 +2,12 @@ package com.meli.coupons.services;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -49,7 +49,7 @@ public class CalculateService {
 		return resultProductsList;
 	}
 
-	public JSONObject calculateLevel2(Map<String, Float> items, Float amount){
+	public Map<String,String> calculateLevel2(Map<String, Float> items, Float amount){
 
 		Map<String, Float> orderedByPriceItemsList = items.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
@@ -60,7 +60,7 @@ public class CalculateService {
 
 		Float totalAmount = 0f;
 		List<String> resultProductsList = new ArrayList<>();
-		JSONObject myObject = new JSONObject();
+		
 
 		for (Map.Entry<String, Float> entry : orderedByPriceItemsList.entrySet()) {
 
@@ -68,16 +68,17 @@ public class CalculateService {
 
 			if(totalAmount < amount) {
 				resultProductsList.add(entry.getKey());
-				
+			}else {
+				totalAmount -= entry.getValue();
 			}
 		}
 		resultProductsList.sort(Comparator.naturalOrder());
 		String suggestedProductsToBuy = new Gson().toJson(resultProductsList);
 		
-		myObject.put("item_ids",suggestedProductsToBuy);
-		myObject.put("amount", String.valueOf(totalAmount));
-		logger.info("suggestedProductsToBuy: {} amount: {}",suggestedProductsToBuy,totalAmount);
-
-		return myObject;
+		Map<String,String> myMap = new HashMap<>();
+		myMap.put("total", String.valueOf(totalAmount));
+		myMap.put("item_ids",suggestedProductsToBuy);
+		
+		return myMap;
 	}
 }

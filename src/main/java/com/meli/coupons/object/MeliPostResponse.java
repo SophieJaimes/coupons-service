@@ -1,6 +1,6 @@
 package com.meli.coupons.object;
 
-public class GetResponse {
+public class MeliPostResponse {
 	
 	private String id;
 	private String tittle;

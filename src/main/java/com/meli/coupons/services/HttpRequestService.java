@@ -12,7 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.meli.coupons.object.GetResponse;
+import com.meli.coupons.object.MeliPostResponse;
 
 @Service
 public class HttpRequestService {
@@ -21,7 +21,6 @@ public class HttpRequestService {
 	private String requestUriApi;
 
 	public static final Logger logger = LoggerFactory.getLogger(HttpRequestService.class);
-	
 	
 	@Cacheable(cacheNames="priceByItemId")
 	public Map<String,Float> getPriceByItemId(List<String> itemsList) {
@@ -34,7 +33,7 @@ public class HttpRequestService {
 			final String uri = requestUriApi+itemId;
 			logger.debug("uri: {}",uri);
 			try {
-				GetResponse getResponse = restTemplate.getForObject(uri, GetResponse.class);
+				MeliPostResponse getResponse = restTemplate.getForObject(uri, MeliPostResponse.class);
 				if(null != getResponse) {
 					itemsWithPricesMap.put(itemId, getResponse.getPrice());
 				}	
@@ -44,6 +43,7 @@ public class HttpRequestService {
 			}
 		}
 		return itemsWithPricesMap;
+		
 	}
 	
 	@CacheEvict(cacheNames="priceByItemId", allEntries=true)

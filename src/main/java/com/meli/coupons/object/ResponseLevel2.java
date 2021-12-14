@@ -8,6 +8,7 @@ public class ResponseLevel2 {
 	private String status;
 	private String itemIds;
 	private String amount;
+	
 	public String getStatus() {
 		return status;
 	}
