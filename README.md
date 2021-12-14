@@ -2,7 +2,7 @@
 
 Se generó un API POST que recibe como parámetros una lista de item_ids con sus respectivos precios y el máximo total del cupón.
 
-**Host:** https://104.197.255.45:80/challengeLevel1/
+**Host:** https://34.69.205.108:80/challengeLevel1/
 
 **Request body ejemplo:**
 
@@ -19,7 +19,7 @@ Se generó un API POST que recibe como parámetros una lista de item_ids con sus
 
 Se generó un API POST que recibe como parámetros una lista de item_ids y el máximo total del cupón
 
-**Host:** https://104.197.255.45:80/coupon/
+**Host:** https://34.69.205.108:80/coupon/
 
 **Body ejemplo:**
 
@@ -32,7 +32,7 @@ Se generó un API POST que recibe como parámetros una lista de item_ids y el m�
 
 **Para el desafío Nivel 3:**
 
-Se implementó un deployment de kubernetes el cual fue hosteado en un cluster y un Service de tipo Loadbalancer con ip publica: 104.197.255.45
+Se implementó un deployment de kubernetes el cual fue hosteado en un cluster y un Service de tipo Loadbalancer con ip publica: 34.69.205.108
 
 Se implementó la funcionalidad de caché en el request GET https://api.mercadolibre.com/items/
 Lo anterior con el fin de que no se consulte dicha información muchas veces seguidas teniendo en cuenta que los usuarios suelen marcar como favoritos los mismos items.
