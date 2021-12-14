@@ -11,7 +11,7 @@ Se generó un API POST que recibe como parámetros una lista de item_ids con sus
 **Response:**
 {"message": "[MLA1, MLA2, MLA4, MLA5]"}
 
-**Nota: **En caso de que llegue más de un ITEM_ID igual, se eliminan los duplicados y solo se tendrá en cuenta una vez cada item.
+**Nota:** En caso de que llegue más de un ITEM_ID igual, se eliminan los duplicados y solo se tendrá en cuenta una vez cada item.
 
 
 
