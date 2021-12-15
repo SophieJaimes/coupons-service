@@ -32,7 +32,8 @@ Se generó un API POST que recibe como parámetros una lista de item_ids y el m�
 
 **Para el desafío Nivel 3:**
 
-Se implementó un deployment de kubernetes el cual fue hosteado en un cluster y un Service de tipo Loadbalancer con ip publica: 34.69.205.108
+Se implementó un deployment de kubernetes con un auto-scaling de máximo 10 replicas para asegurar el alto trafico del componente
+Se hosteo la aplicación en un cluster de Kubernetes a través de un service tipo Loadbalancer con ip publica: 34.69.205.108
 
 Se implementó la funcionalidad de caché en el request GET https://api.mercadolibre.com/items/
 Lo anterior con el fin de que no se consulte dicha información muchas veces seguidas teniendo en cuenta que los usuarios suelen marcar como favoritos los mismos items.
