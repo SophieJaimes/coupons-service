@@ -28,7 +28,6 @@ public class HttpRequestService {
 		Map<String,Float> itemsWithPricesMap = new HashMap<>();
 
 		for(String itemId : itemsList) {
-
 			RestTemplate restTemplate = new RestTemplate();
 			final String uri = requestUriApi+itemId;
 			logger.debug("uri: {}",uri);

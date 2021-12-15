@@ -23,6 +23,7 @@ public class CalculateService {
 
 		//Ordena de menor a mayor por amount y elimina los duplicados
 		
+		
 		Map<String, Float> orderedByPriceItemsList = items.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
@@ -78,6 +79,7 @@ public class CalculateService {
 		Map<String,String> myMap = new HashMap<>();
 		myMap.put("total", String.valueOf(totalAmount));
 		myMap.put("item_ids",suggestedProductsToBuy);
+		
 		
 		return myMap;
 	}
