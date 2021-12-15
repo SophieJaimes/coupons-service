@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coupons-service
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+      - name: coupons-service
+        image: gcr.io/big-keyword-335000/big-keyword-335000
+        ports:
+        - containerPort: 8080
+kind: Service
+apiVersion: v1
+metadata:
+  name: coupons-service
+spec:
+  type: LoadBalancer
+  port: 80
+  target-port: 8080
+
+
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: coupons-service
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: coupons-service
+  minReplicas: 1
+  maxReplicas: 10
