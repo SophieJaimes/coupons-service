@@ -66,7 +66,7 @@ class ControllerTest {
 		suggestedItems.add("MLA4");
 		suggestedItems.add("MLA5");
 		
-		when(calculateService.calculate(map, amount)).thenReturn(suggestedItems);
+		when(calculateService.getSuggestedItemsList(map, amount)).thenReturn(suggestedItems);
 		assertEquals(suggestedItems.toString(),controller.getSuggestedProductsToBuyWithCouponsLevel1(requestBodyLevel1));
 	}
 	
@@ -80,7 +80,7 @@ class ControllerTest {
 		
 		amount = 0f;
 		
-		when(calculateService.calculate(map, amount)).thenReturn(suggestedItems);
+		when(calculateService.getSuggestedItemsList(map, amount)).thenReturn(suggestedItems);
 		assertEquals("There aren't suggested products to buy",controller.getSuggestedProductsToBuyWithCouponsLevel1(requestBodyLevel1));
 	}
 	
@@ -108,7 +108,7 @@ class ControllerTest {
 		items.add("MLA5");
 		
 		when(httpRequestService.getPriceByItemId(items)).thenReturn(map);
-		when(calculateService.calculateLevel2(map, 500f)).thenReturn(suggestedItemsMap);
+		when(calculateService.getCouponSuggestedItemsList(map, 500f)).thenReturn(suggestedItemsMap.toString());
 		
 		RequestBodyLevel2 requestBodyLevel2 = new RequestBodyLevel2();
 		requestBodyLevel2.setAmount(500f);
@@ -131,7 +131,7 @@ class ControllerTest {
 		items.add("MLA5");		
 		
 		when(httpRequestService.getPriceByItemId(items)).thenReturn(map);
-		when(calculateService.calculateLevel2(map, 10f)).thenReturn(null);
+		when(calculateService.getCouponSuggestedItemsList(map, 10f)).thenReturn(null);
 		
 		RequestBodyLevel2 requestBodyLevel2 = new RequestBodyLevel2();		
 		requestBodyLevel2.setAmount(10f);

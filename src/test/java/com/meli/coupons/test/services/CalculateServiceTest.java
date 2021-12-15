@@ -3,6 +3,7 @@ package com.meli.coupons.test.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ class CalculateServiceTest {
 		map.put("MLA4", 80f);
 		map.put("MLA5", 90f);
 		
-		assertEquals(suggestedItems,calculateService.calculate(map, 500f));
+		assertEquals(suggestedItems,calculateService.getSuggestedItemsList(map, 500f));
 	}
 	
 	@Test
@@ -55,13 +56,13 @@ class CalculateServiceTest {
 		map.put("MLA4", 80f);
 		map.put("MLA5", 90f);
 		
-		String suggestedProductsToBuy = new Gson().toJson(suggestedItems);
+		LinkedHashMap<Object, Object> responseMap = new LinkedHashMap<>();
+		responseMap.put("item_ids",suggestedItems);
+		responseMap.put("total", 480f);
 		
-		Map<String,String> myMap = new HashMap<>();
-		myMap.put("total", String.valueOf(480f));
-		myMap.put("item_ids",suggestedProductsToBuy);
+		String responseJson = new Gson().toJson(responseMap);
 		
-		assertEquals(myMap,calculateService.calculateLevel2(map, 500f));
+		assertEquals(responseJson,calculateService.getCouponSuggestedItemsList(map, 500f));
 	}
 
 }

@@ -12,7 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.meli.coupons.object.MeliPostResponse;
+import com.meli.coupons.object.MeliGetResponse;
 
 @Service
 public class HttpRequestService {
@@ -22,6 +22,12 @@ public class HttpRequestService {
 
 	public static final Logger logger = LoggerFactory.getLogger(HttpRequestService.class);
 	
+	/**
+	 * This method request the Mercado Libre REST to get the prices from a list of items
+	 * It has a cacheable function for performance
+	 * @param itemsList
+	 * @return map with a list of items with their respective prices
+	 */
 	@Cacheable(cacheNames="priceByItemId")
 	public Map<String,Float> getPriceByItemId(List<String> itemsList) {
 
@@ -30,9 +36,9 @@ public class HttpRequestService {
 		for(String itemId : itemsList) {
 			RestTemplate restTemplate = new RestTemplate();
 			final String uri = requestUriApi+itemId;
-			logger.debug("uri: {}",uri);
+			logger.info("Requesting REST GET uri: {}",uri);
 			try {
-				MeliPostResponse getResponse = restTemplate.getForObject(uri, MeliPostResponse.class);
+				MeliGetResponse getResponse = restTemplate.getForObject(uri, MeliGetResponse.class);
 				if(null != getResponse) {
 					itemsWithPricesMap.put(itemId, getResponse.getPrice());
 				}	
@@ -44,7 +50,9 @@ public class HttpRequestService {
 		return itemsWithPricesMap;
 		
 	}
-	
+	/**
+	 * This method helps the CacheAdminController to release the cache
+	 */
 	@CacheEvict(cacheNames="priceByItemId", allEntries=true)
 	public void releasePriceByItemId() { 
 		// Intentionally blank

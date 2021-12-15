@@ -2,7 +2,6 @@ package com.meli.coupons.services;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +18,13 @@ public class CalculateService {
 
 	public static final Logger logger = LoggerFactory.getLogger(CalculateService.class);
 
-	public List<String> calculate(Map<String, Float> items, Float amount){
+	/**
+	 * This method sorts the itemsList from lowest to highest by price and delete duplicates by item_id
+	 * Adds all prices as long as their sum is lower than coupon amount
+	 * method created to develop the level 1 from the challenge
+	 */
+	public List<String> getSuggestedItemsList(Map<String, Float> items, Float amount){
 
-		//Ordena de menor a mayor por amount y elimina los duplicados
-		
-		
 		Map<String, Float> orderedByPriceItemsList = items.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
@@ -49,8 +50,12 @@ public class CalculateService {
 
 		return resultProductsList;
 	}
-
-	public Map<String,String> calculateLevel2(Map<String, Float> items, Float amount){
+	
+	/**
+	 * This method has the same function that getSuggestedItemsList() but in addition 
+	 * returns the coupon amount 
+	 */
+	public String getCouponSuggestedItemsList(Map<String, Float> items, Float amount){
 
 		Map<String, Float> orderedByPriceItemsList = items.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
@@ -74,13 +79,15 @@ public class CalculateService {
 			}
 		}
 		resultProductsList.sort(Comparator.naturalOrder());
-		String suggestedProductsToBuy = new Gson().toJson(resultProductsList);
 		
-		Map<String,String> myMap = new HashMap<>();
-		myMap.put("total", String.valueOf(totalAmount));
-		myMap.put("item_ids",suggestedProductsToBuy);
+		LinkedHashMap<Object, Object> responseMap = new LinkedHashMap<>();
+		responseMap.put("item_ids",resultProductsList);
+		responseMap.put("total", totalAmount);
 		
+		String responseJson = new Gson().toJson(responseMap);
 		
-		return myMap;
+		logger.info("responseJson: {} ", responseJson);
+		
+		return responseJson;
 	}
 }
